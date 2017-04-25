@@ -1,0 +1,66 @@
+<?php
+
+
+function __autoload($class_name) {
+    include $class_name . '.php' ;
+}
+session_start();
+$user = new Register_new;
+
+if(isset($_POST['zaloguj'])){
+	$reg = new Register_new ;
+	$reg->_login();
+	$_SESSION['ok'] = 'ok';
+	$_SESSION['zalogowany'] = true;
+}
+?>
+
+<!DOCTYPE HTML>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <title>System ankietyzacji</title>
+  </head>
+  <body>
+	<main>	
+		<header>
+			<?php
+				echo "System ankietyzacji";
+			?>
+		</header>
+
+		<?php
+
+			echo '<nav>';
+			if ( ! $user->_is_logged() )
+			{  
+
+				echo '<span class="option"><a href="rejestracja.php">Rejestracja w serwisie</a></span>';
+				echo '<span class="option"><a href="logowanie.php">Logowanie do serwisu</a></span>';
+				echo '<span class="option"><a href="offline.php">Baza offline</a></span>';
+				echo '<div style="clear:both;"></div>';
+			} 
+			else
+			{
+				echo '<span class="option"><a href="dodajRekord.php">Dodaj rekord</a></span>' ;
+				echo '<span class="option"><a href="pokazRekordy.php">Pokaż rekordy</a></span>';
+				echo '<span class="option"><a href="">Analiza</a></span>';
+				echo '<span class="option"><a href="wyloguj.php">Wylogowanie z serwisu</a></span>' ;
+				echo '<div style="clear:both;"></div>';
+			}
+			echo '</nav>';
+
+
+			if(isset($_SESSION['ok'])){
+			$reg->_is_logged();
+			echo "<p><a href='index.php'>Powrot do programu glownego</a></p>";
+			echo '<a href="wyloguj.php">Wylogowanie z serwisu<br/>';
+			echo '<a href="dodajRekord.php">Dodaj';
+		}
+
+		?>
+		
+
+	</main>
+  </body>
+</html>
